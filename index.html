@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women in tech</title>
+    <style>
+        picture {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 100px;
+        }
+
+        picture.is-small {
+            width: 50px;
+        }
+
+        picture.is-large {
+            width: 150px;
+        }
+
+        img {
+            box-shadow: 0 0 15px #999;
+            border-radius: 50%;
+            width: 100%;
+        }
+
+        img.disabled {
+            opacity: 0.5;
+        }
+    </style>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+    <h1>Women in tech</h1>
+    <div id="app">
+
+
+    </div>
+
+
+
+    <script type="text/babel">
+        const $app = document.getElementById("app");
+        //const h = React.createElement
+        const useState = React.useState;
+
+
+        const Avatar = ({id,name ='❤️',size}) => {
+            const [enabled, setEnabled] = useState(true);
+            const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
+
+            let pictureClassName = "";
+
+            if (size === "small") {
+                pictureClassName = "is-small";
+            } else if (size === "large") {
+                pictureClassName = "is-large";
+            }
+
+
+            const className = enabled ? '' : "disabled";
+
+            //Se da unos de js sin nin´gun tipo de elemento 
+
+            //   return h('img', {src} )
+
+            //Aquí ya damos uso de JSX para dar un render de mejor forma y no usar una función compleja
+            // Es una forma de agragar javascrip de forma más facil y rápida
+
+            return (
+                <picture className={pictureClassName}>
+                    {
+                        id?(
+                        <img onClick={() => setEnabled(!enabled)}
+                            className={className}
+                            src={src}
+                        />
+                        ): (<strong>Sin Imagen</strong>)
+                    }
+                    <span>{enabled? name:"Desactivada"}</span>
+                </picture>
+
+            );
+        };
+
+        // Primera forma de renderizar: 
+        //          ReactDOM.render(h(Avatar,{id:12}), $app);
+
+
+        //Segunda forma de renderizar:
+        /*
+        ReactDOM.render(
+            h("div", null, [h(Avatar, {id:10}), h(Avatar, {id:11}), h(Avatar, {id:12})]),
+            $app
+        )
+        */
+
+
+        //Tercera forma de renderizar:
+
+        ReactDOM.render(
+            <div>
+                <Avatar id={10}  size="small" />
+                <Avatar id={11} name="Maria" />
+                <Avatar id={12} name="Daniela" size="large" />
+            </div>,
+            $app
+        )
+
+
+        //Creación de Js inicial para crear un componente de avatares de usuarios 
+        /*
+        const Avatar = params => {
+            const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+            return `
+            <picture>
+                <img src="${src}"/>
+                <strong>${params.name}</ strong>
+            </picture>
+            `;
+        };
+        $app.innerHTML += Avatar({id:1, name: "Jane"});
+        $app.innerHTML += Avatar({id:2, name: "Carolina"});
+
+        $app.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click',() =>{
+                img.classList.toggle("disabled");
+            })
+        })*/
+    </script>
+
+</body>
+
+</html>
